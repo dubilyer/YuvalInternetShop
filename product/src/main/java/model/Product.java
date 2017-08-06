@@ -1,5 +1,9 @@
-package dto;
+package model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "products")
 public class Product {
     private long id;
     private String name;
@@ -9,6 +13,10 @@ public class Product {
         this.name = name;
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "products_product_id_seq")
+    @SequenceGenerator(name = "products_product_id_seq", sequenceName = "products_product_id_seq", allocationSize = 1)
+    @Column(name = "product_id")
     public long getId() {
         return id;
     }
@@ -17,6 +25,7 @@ public class Product {
         this.id = id;
     }
 
+    @Column(name = "product_name")
     public String getName() {
         return name;
     }
