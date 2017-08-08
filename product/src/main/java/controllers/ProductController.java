@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping(value = "/")
+@RequestMapping(value = "/api/v2")
 public class ProductController {
     @Autowired
     private ProductService productService;
@@ -23,7 +23,7 @@ public class ProductController {
     @ResponseBody
     public ResponseEntity<String> home() {
         logger.logRequest(RequestMethod.GET, "/");
-        ResponseEntity<String> result = new ResponseEntity<>("welcome", HttpStatus.OK);
+        ResponseEntity<String> result = new ResponseEntity<>("redirect:/api/swagger-ui", HttpStatus.OK);
         logger.logResponse(result);
         return result;
     }
