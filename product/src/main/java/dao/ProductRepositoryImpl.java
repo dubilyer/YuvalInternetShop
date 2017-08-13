@@ -12,7 +12,7 @@ import java.util.NoSuchElementException;
 
 @Transactional
 @Repository("productRepository")
-public class ProductRepositoryListImpl implements ProductRepository{
+public class ProductRepositoryImpl implements ProductRepository{
     @Autowired
     private SessionFactory sessionFactory;
 

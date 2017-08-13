@@ -1,21 +1,22 @@
-package controllers;
-
-import dto.ProductDto;
+package api;
+import dto.AccountDto;
 import logger.LoggerDecorator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import service.ProductService;
+import services.AccountService;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
+@ComponentScan("services")
 @RequestMapping(value = "/api/v2")
-public class ProductController {
+public class AccountApi {
     @Autowired
-    private ProductService productService;
+    private AccountService accountService;
 
     private LoggerDecorator logger = new LoggerDecorator(this.getClass());
 
@@ -28,13 +29,13 @@ public class ProductController {
         return result;
     }
 
-    @RequestMapping(value = "/addproduct/{product_name}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/addaccount/{account_name}", method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity<String> addProduct(@PathVariable String product_name) {
-        logger.logRequest(RequestMethod.PUT, "/addproduct/" + product_name);
+    public ResponseEntity<String> addAccount(@PathVariable String account_name) {
+        logger.logRequest(RequestMethod.PUT, "/addaccount/" + account_name);
         ResponseEntity<String> result;
         try {
-            productService.addProduct(new ProductDto(product_name));
+            accountService.addAccount(new AccountDto(account_name));
             result = new ResponseEntity<>("success", HttpStatus.OK);
         } catch (NoSuchElementException e) {
             result = new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -43,22 +44,22 @@ public class ProductController {
         return result;
     }
 
-    @RequestMapping(value = "/products", method = RequestMethod.GET)
+    @RequestMapping(value = "/accounts", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<List<ProductDto>> getAllProducts() {
-        logger.logRequest(RequestMethod.GET, "/products");
-        ResponseEntity<List<ProductDto>> result = new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
+    public ResponseEntity<List<AccountDto>> getAllAccounts() {
+        logger.logRequest(RequestMethod.GET, "/accounts");
+        ResponseEntity<List<AccountDto>> result = new ResponseEntity<>(accountService.getAllAccounts(), HttpStatus.OK);
         logger.logResponse(result);
         return result;
     }
 
-    @RequestMapping(value = "deleteproduct/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "deleteaccount/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public ResponseEntity<String> deleteProduct(@PathVariable long id) {
-        logger.logRequest(RequestMethod.DELETE, "deleteproduct/" + id);
+    public ResponseEntity<String> deleteAccount(@PathVariable long id) {
+        logger.logRequest(RequestMethod.DELETE, "deleteaccount/" + id);
         ResponseEntity<String> result;
         try {
-            productService.deleteProduct(id);
+            accountService.deleteAccount(id);
             result = new ResponseEntity<>("success", HttpStatus.OK);
         } catch (NoSuchElementException e) {
             result = new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -67,13 +68,13 @@ public class ProductController {
         return result;
     }
 
-    @RequestMapping(value = "products/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "accounts/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<ProductDto> getProductById(@PathVariable long id) {
-        logger.logRequest(RequestMethod.GET, "products/" + id);
-        ResponseEntity<ProductDto> result;
+    public ResponseEntity<AccountDto> getAccountById(@PathVariable long id) {
+        logger.logRequest(RequestMethod.GET, "accounts/" + id);
+        ResponseEntity<AccountDto> result;
         try {
-            result = new ResponseEntity<>(productService.getProductById(id), HttpStatus.OK);
+            result = new ResponseEntity<>(accountService.getAccountById(id), HttpStatus.OK);
         } catch (NoSuchElementException e) {
             result = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

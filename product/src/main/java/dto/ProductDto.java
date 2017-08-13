@@ -8,19 +8,12 @@ public class ProductDto {
         this.name = name;
     }
 
-    public ProductDto(long id) {
-        this.id = id;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         ProductDto that = (ProductDto) o;
-
-        if (id != that.id) return false;
-        return name.equals(that.name);
+        return id == that.id && name.equals(that.name);
     }
 
     @Override
