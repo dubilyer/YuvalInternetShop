@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-@Service("accountService")
+@Service(value = "accountService")
 @Transactional
 public class AccountService {
     @Autowired

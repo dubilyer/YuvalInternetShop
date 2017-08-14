@@ -1,6 +1,8 @@
 package api;
 
 import dto.ProductDto;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import logger.LoggerDecorator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +15,7 @@ import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping(value = "/api/v2")
+@Api(value = "ProductApi", description = "Internet shop product api")
 public class ProductApi {
     @Autowired
     private ProductService productService;
@@ -21,6 +24,7 @@ public class ProductApi {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody
+    @ApiOperation(value = "Home page", notes = "Forwards to the product home page")
     public ResponseEntity<String> home() {
         logger.logRequest(RequestMethod.GET, "/");
         ResponseEntity<String> result = new ResponseEntity<>("redirect:/api/swagger-ui", HttpStatus.OK);
@@ -30,6 +34,7 @@ public class ProductApi {
 
     @RequestMapping(value = "/addproduct/{product_name}", method = RequestMethod.PUT)
     @ResponseBody
+    @ApiOperation(value = "Add product", notes = "Adds a new product")
     public ResponseEntity<String> addProduct(@PathVariable String product_name) {
         logger.logRequest(RequestMethod.PUT, "/addproduct/" + product_name);
         ResponseEntity<String> result;
@@ -45,6 +50,7 @@ public class ProductApi {
 
     @RequestMapping(value = "/products", method = RequestMethod.GET)
     @ResponseBody
+    @ApiOperation(value = "Get products", notes = "Shows all existing accounts")
     public ResponseEntity<List<ProductDto>> getAllProducts() {
         logger.logRequest(RequestMethod.GET, "/products");
         ResponseEntity<List<ProductDto>> result = new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
@@ -69,6 +75,7 @@ public class ProductApi {
 
     @RequestMapping(value = "products/{id}", method = RequestMethod.GET)
     @ResponseBody
+    @ApiOperation(value = "Delete account", notes = "Deletes product by id")
     public ResponseEntity<ProductDto> getProductById(@PathVariable long id) {
         logger.logRequest(RequestMethod.GET, "products/" + id);
         ResponseEntity<ProductDto> result;

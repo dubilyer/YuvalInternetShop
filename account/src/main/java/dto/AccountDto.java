@@ -1,7 +1,13 @@
 package dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(value = "User account")
 public class AccountDto {
+        @ApiModelProperty(value = "the unique id of user account", required = true)
         private long id;
+        @ApiModelProperty(value = "users nickname", required = true)
         private String name;
 
         public AccountDto(String name) {

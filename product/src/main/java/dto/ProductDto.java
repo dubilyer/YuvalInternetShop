@@ -1,7 +1,13 @@
 package dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(value = "Shop item")
 public class ProductDto {
+    @ApiModelProperty(value = "the unique id of shop item", required = true)
     private long id;
+    @ApiModelProperty(value = "Items name", required = true)
     private String name;
 
     public ProductDto(String name) {

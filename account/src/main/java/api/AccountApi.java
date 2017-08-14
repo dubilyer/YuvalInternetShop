@@ -1,19 +1,23 @@
 package api;
 import dto.AccountDto;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import logger.LoggerDecorator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import services.AccountService;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
-@RestController
+@RestController(value = "account")
 @ComponentScan("services")
 @RequestMapping(value = "/api/v2")
+@Api(value = "AccountApi", description = "Internet shop accounts api")
 public class AccountApi {
     @Autowired
     private AccountService accountService;
@@ -22,15 +26,16 @@ public class AccountApi {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<String> home() {
+    @ApiOperation(value = "Home page", notes = "Forwards to the account home page")
+    public ModelAndView home() {
         logger.logRequest(RequestMethod.GET, "/");
-        ResponseEntity<String> result = new ResponseEntity<>("redirect:/api/swagger-ui", HttpStatus.OK);
-        logger.logResponse(result);
-        return result;
+        return new ModelAndView("redirect:/swagger-ui.html");
     }
+
 
     @RequestMapping(value = "/addaccount/{account_name}", method = RequestMethod.PUT)
     @ResponseBody
+    @ApiOperation(value = "Add account", notes = "Adds a new account")
     public ResponseEntity<String> addAccount(@PathVariable String account_name) {
         logger.logRequest(RequestMethod.PUT, "/addaccount/" + account_name);
         ResponseEntity<String> result;
@@ -46,6 +51,7 @@ public class AccountApi {
 
     @RequestMapping(value = "/accounts", method = RequestMethod.GET)
     @ResponseBody
+    @ApiOperation(value = "Get accounts", notes = "Shows all existing accounts")
     public ResponseEntity<List<AccountDto>> getAllAccounts() {
         logger.logRequest(RequestMethod.GET, "/accounts");
         ResponseEntity<List<AccountDto>> result = new ResponseEntity<>(accountService.getAllAccounts(), HttpStatus.OK);
@@ -55,6 +61,7 @@ public class AccountApi {
 
     @RequestMapping(value = "deleteaccount/{id}", method = RequestMethod.DELETE)
     @ResponseBody
+    @ApiOperation(value = "Delete account", notes = "Deletes account by id")
     public ResponseEntity<String> deleteAccount(@PathVariable long id) {
         logger.logRequest(RequestMethod.DELETE, "deleteaccount/" + id);
         ResponseEntity<String> result;
@@ -70,6 +77,7 @@ public class AccountApi {
 
     @RequestMapping(value = "accounts/{id}", method = RequestMethod.GET)
     @ResponseBody
+    @ApiOperation(value = "Get Account", notes = "Shows account with specified id")
     public ResponseEntity<AccountDto> getAccountById(@PathVariable long id) {
         logger.logRequest(RequestMethod.GET, "accounts/" + id);
         ResponseEntity<AccountDto> result;
