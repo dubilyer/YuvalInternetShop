@@ -32,6 +32,7 @@ public class Account {
         return id;
     }
 
+    @SuppressWarnings("unused")
     public void setId(long id) {
         this.id = id;
     }
@@ -41,6 +42,7 @@ public class Account {
         return name;
     }
 
+    @SuppressWarnings("unused")
     public void setName(String name) {
         this.name = name;
     }

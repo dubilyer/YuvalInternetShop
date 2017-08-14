@@ -16,10 +16,11 @@ public class ProductRepositoryImpl implements ProductRepository{
     @Autowired
     private SessionFactory sessionFactory;
 
-    protected Session getSession(){
+    private Session getSession(){
         return sessionFactory.getCurrentSession();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public List<Product> getAllProducts() {
         return getSession()
@@ -39,6 +40,7 @@ public class ProductRepositoryImpl implements ProductRepository{
         getSession().delete(product);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Product getProductById(long id) throws NoSuchElementException{
         List<Product> products =  getSession()

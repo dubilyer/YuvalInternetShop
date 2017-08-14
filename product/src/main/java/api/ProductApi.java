@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import services.ProductService;
 
 import java.util.List;
@@ -25,11 +26,9 @@ public class ProductApi {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody
     @ApiOperation(value = "Home page", notes = "Forwards to the product home page")
-    public ResponseEntity<String> home() {
+    public ModelAndView home() {
         logger.logRequest(RequestMethod.GET, "/");
-        ResponseEntity<String> result = new ResponseEntity<>("redirect:/api/swagger-ui", HttpStatus.OK);
-        logger.logResponse(result);
-        return result;
+        return new ModelAndView("redirect:/swagger-ui.html");
     }
 
     @RequestMapping(value = "/addproduct/{product_name}", method = RequestMethod.PUT)

@@ -37,6 +37,7 @@ public class AccountDto {
             return id;
         }
 
+        @SuppressWarnings("unused")
         public void setId(long id) {
             this.id = id;
         }
@@ -45,6 +46,7 @@ public class AccountDto {
             return name;
         }
 
+        @SuppressWarnings("unused")
         public void setName(String name) {
             this.name = name;
         }

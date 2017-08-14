@@ -34,12 +34,12 @@ public class ConfigUtils {
     public static LocalSessionFactoryBean getLocalSessionFactoryBean(DataSource dataSource, Properties hibernateProperties) {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource);
-        sessionFactory.setPackagesToScan(new String[] { "model" });
+        sessionFactory.setPackagesToScan("model");
         sessionFactory.setHibernateProperties(hibernateProperties);
         return sessionFactory;
     }
 
-    public static ApiInfo getApiInfo() {
+    private static ApiInfo getApiInfo() {
         return new ApiInfoBuilder()
                 .title("InternetShop")
                 .description("This is a sample internet shop by Eduard Dubilyer")

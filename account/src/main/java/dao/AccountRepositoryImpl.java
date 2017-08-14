@@ -16,10 +16,11 @@ public class AccountRepositoryImpl implements AccountRepository{
     @Autowired
     private SessionFactory sessionFactory;
 
-    protected Session getSession(){
+    private Session getSession(){
         return sessionFactory.getCurrentSession();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public List<Account> getAllAccounts() {
         return getSession()
@@ -39,6 +40,7 @@ public class AccountRepositoryImpl implements AccountRepository{
         getSession().delete(account);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Account getAccountById(long id) throws NoSuchElementException{
         List<Account> accounts =  getSession()
