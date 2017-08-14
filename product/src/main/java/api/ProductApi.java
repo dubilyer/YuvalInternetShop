@@ -1,5 +1,7 @@
 package api;
 
+import apihelper.helper.ApiHelper;
+import apihelper.pojo.AccountPojo;
 import dto.ProductDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import services.ProductService;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -84,6 +87,20 @@ public class ProductApi {
             result = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         logger.logResponse(result);
+        return result;
+    }
+
+    @RequestMapping(value = "accounts/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    @ApiOperation(value = "Get account by id", notes = "Shows user with specified id")
+    public ResponseEntity<AccountPojo> getAccountById(@PathVariable long id) {
+        logger.logRequest(RequestMethod.GET, "accounts/" + id);
+        ResponseEntity<AccountPojo> result;
+        try {
+            result = new ResponseEntity<AccountPojo>(new ApiHelper().getAccountById(id), HttpStatus.OK);
+        } catch (IOException e) {
+            result = new ResponseEntity<AccountPojo>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
         return result;
     }
 }
