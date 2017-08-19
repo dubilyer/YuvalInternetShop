@@ -26,7 +26,7 @@ public class ProductApi {
 
     private LoggerDecorator logger = new LoggerDecorator(this.getClass());
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @GetMapping(value = "/")
     @ResponseBody
     @ApiOperation(value = "Home page", notes = "Forwards to the product home page")
     public ModelAndView home() {
@@ -34,7 +34,7 @@ public class ProductApi {
         return new ModelAndView("redirect:/swagger-ui.html");
     }
 
-    @RequestMapping(value = "/addproduct/{product_name}", method = RequestMethod.PUT)
+    @PutMapping(value = "/addproduct/{product_name}")
     @ResponseBody
     @ApiOperation(value = "Add product", notes = "Adds a new product")
     public ResponseEntity<String> addProduct(@PathVariable String product_name) {
@@ -50,7 +50,7 @@ public class ProductApi {
         return result;
     }
 
-    @RequestMapping(value = "/products", method = RequestMethod.GET)
+    @GetMapping(value = "/products")
     @ResponseBody
     @ApiOperation(value = "Get products", notes = "Shows all existing accounts")
     public ResponseEntity<List<ProductDto>> getAllProducts() {
@@ -60,7 +60,7 @@ public class ProductApi {
         return result;
     }
 
-    @RequestMapping(value = "deleteproduct/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "deleteproduct/{id}")
     @ResponseBody
     public ResponseEntity<String> deleteProduct(@PathVariable long id) {
         logger.logRequest(RequestMethod.DELETE, "deleteproduct/" + id);
@@ -75,7 +75,7 @@ public class ProductApi {
         return result;
     }
 
-    @RequestMapping(value = "products/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "products/{id}")
     @ResponseBody
     @ApiOperation(value = "Delete account", notes = "Deletes product by id")
     public ResponseEntity<ProductDto> getProductById(@PathVariable long id) {
@@ -90,16 +90,16 @@ public class ProductApi {
         return result;
     }
 
-    @RequestMapping(value = "accounts/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "accounts/{id}")
     @ResponseBody
     @ApiOperation(value = "Get account by id", notes = "Shows user with specified id")
     public ResponseEntity<AccountPojo> getAccountById(@PathVariable long id) {
         logger.logRequest(RequestMethod.GET, "accounts/" + id);
         ResponseEntity<AccountPojo> result;
         try {
-            result = new ResponseEntity<AccountPojo>(new ApiHelper().getAccountById(id), HttpStatus.OK);
+            result = new ResponseEntity<>(new ApiHelper().getAccountById(id), HttpStatus.OK);
         } catch (IOException e) {
-            result = new ResponseEntity<AccountPojo>(HttpStatus.INTERNAL_SERVER_ERROR);
+            result = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return result;
     }

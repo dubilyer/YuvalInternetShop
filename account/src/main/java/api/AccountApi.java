@@ -24,7 +24,7 @@ public class AccountApi {
 
     private LoggerDecorator logger = new LoggerDecorator(this.getClass());
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @GetMapping(value = "/")
     @ResponseBody
     @ApiOperation(value = "Home page", notes = "Forwards to the account home page")
     public ModelAndView home() {
@@ -33,7 +33,7 @@ public class AccountApi {
     }
 
 
-    @RequestMapping(value = "/addaccount/{account_name}", method = RequestMethod.PUT)
+    @PutMapping(value = "/addaccount/{account_name}")
     @ResponseBody
     @ApiOperation(value = "Add account", notes = "Adds a new account")
     public ResponseEntity<String> addAccount(@PathVariable String account_name) {
@@ -49,7 +49,7 @@ public class AccountApi {
         return result;
     }
 
-    @RequestMapping(value = "/accounts", method = RequestMethod.GET)
+    @GetMapping(value = "/accounts")
     @ResponseBody
     @ApiOperation(value = "Get accounts", notes = "Shows all existing accounts")
     public ResponseEntity<List<AccountDto>> getAllAccounts() {
@@ -59,7 +59,7 @@ public class AccountApi {
         return result;
     }
 
-    @RequestMapping(value = "deleteaccount/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "deleteaccount/{id}")
     @ResponseBody
     @ApiOperation(value = "Delete account", notes = "Deletes account by id")
     public ResponseEntity<String> deleteAccount(@PathVariable long id) {
@@ -75,7 +75,7 @@ public class AccountApi {
         return result;
     }
 
-    @RequestMapping(value = "accounts/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "accounts/{id}")
     @ResponseBody
     @ApiOperation(value = "Get Account", notes = "Shows account with specified id")
     public ResponseEntity<AccountDto> getAccountById(@PathVariable long id) {
