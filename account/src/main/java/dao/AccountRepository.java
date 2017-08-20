@@ -10,4 +10,5 @@ public interface AccountRepository {
     void addAccount(Account account) throws NoSuchElementException;
     void deleteAccount(long id) throws NoSuchElementException;
     Account getAccountById(long id) throws NoSuchElementException;
+    Account getAccountByName(String name) throws NoSuchElementException;
 }

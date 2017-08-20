@@ -17,32 +17,38 @@ public class AccountService {
     @Autowired
     AccountRepository accountRepository;
 
-    public void addAccount(AccountDto accountDto){
+    public void addAccount(AccountDto accountDto) {
         accountRepository.addAccount(convertDtoToAccount(accountDto));
     }
 
-    public List<AccountDto> getAllAccounts(){
-        List<Account> accounts =  accountRepository.getAllAccounts();
-        List <AccountDto> result = new LinkedList<>();
-        accounts.forEach(p -> result.add(new AccountDto(p.getId(), p.getName())) );
+    public List<AccountDto> getAllAccounts() {
+        List<Account> accounts = accountRepository.getAllAccounts();
+        List<AccountDto> result = new LinkedList<>();
+        accounts.forEach(p -> result.add(new AccountDto(p.getId(), p.getName(), "secured")));
         return result;
     }
 
-    public void deleteAccount(long id){
+    public void deleteAccount(long id) {
         accountRepository.deleteAccount(id);
     }
 
-    public AccountDto getAccountById(long id) throws NoSuchElementException{
+    public AccountDto getAccountById(long id) throws NoSuchElementException {
         Account account = accountRepository.getAccountById(id);
         return convertAccountToDto(account);
     }
 
-    private AccountDto convertAccountToDto(Account account) {
-        return new AccountDto(account.getId(), account.getName());
+    public Object getAccountByName(String name) {
+        Account account = accountRepository.getAccountByName(name);
+        return  convertAccountToDto(account);
     }
 
-    private Account convertDtoToAccount(AccountDto accountDto){
-        return new Account(accountDto.getId(), accountDto.getName());
+    private AccountDto convertAccountToDto(Account account) {
+        return new AccountDto(account.getId(), account.getName(), account.getPassword());
     }
+
+    private Account convertDtoToAccount(AccountDto accountDto) {
+        return new Account(accountDto.getId(), accountDto.getName(), accountDto.getPassword());
+    }
+
 }
 

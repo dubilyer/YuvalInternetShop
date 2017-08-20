@@ -4,17 +4,23 @@ import javax.persistence.*;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "GET_ALL_PRODUCTS", query = "from Account"),
-        @NamedQuery(name = "GET_PRODUCT_BY_ID", query = "from Account where id= :id"),
+        @NamedQuery(name = "GET_ALL_ACCOUNTS", query = "from Account"),
+        @NamedQuery(name = "GET_ACCOUNT_BY_ID", query = "from Account where id= :id"),
+        @NamedQuery(name = "GET_ACCOUNT_BY_NAME", query = "from Account where name= :name")
 })
-@Table(name = "accounts")
+@Table(name = "accounts", uniqueConstraints = @UniqueConstraint(columnNames = {
+        "account_id",
+        "account_name"
+}))
 public class Account {
     private long id;
     private String name;
+    private String password;
 
-    public Account(long id, String name) {
+    public Account(long id, String name, String password) {
         this.id = id;
         this.name = name;
+        this.password = password;
     }
 
     public Account() {
@@ -37,7 +43,7 @@ public class Account {
         this.id = id;
     }
 
-    @Column(name = "account_name")
+    @Column(name = "account_name", unique = true)
     public String getName() {
         return name;
     }
@@ -45,6 +51,16 @@ public class Account {
     @SuppressWarnings("unused")
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Column(name = "password")
+    public String getPassword() {
+        return password;
+    }
+
+    @SuppressWarnings("unused")
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override

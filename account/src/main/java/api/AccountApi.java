@@ -33,14 +33,14 @@ public class AccountApi {
     }
 
 
-    @PutMapping(value = "/addaccount/{account_name}")
+    @PutMapping(value = "/addaccount/{account_name}:{password}")
     @ResponseBody
     @ApiOperation(value = "Add account", notes = "Adds a new account")
-    public ResponseEntity<String> addAccount(@PathVariable String account_name) {
-        logger.logRequest(RequestMethod.PUT, "/addaccount/" + account_name);
+    public ResponseEntity<String> addAccount(@PathVariable String account_name, @PathVariable String password) {
+        logger.logRequest(RequestMethod.PUT, "/addaccount/" + account_name + ":" + password);
         ResponseEntity<String> result;
         try {
-            accountService.addAccount(new AccountDto(account_name));
+            accountService.addAccount(new AccountDto(account_name, password));
             result = new ResponseEntity<>("success", HttpStatus.OK);
         } catch (NoSuchElementException e) {
             result = new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -75,11 +75,11 @@ public class AccountApi {
         return result;
     }
 
-    @GetMapping(value = "accounts/{id}")
+    @GetMapping(value = "accounts/id/{id}")
     @ResponseBody
     @ApiOperation(value = "Get Account", notes = "Shows account with specified id")
     public ResponseEntity<AccountDto> getAccountById(@PathVariable long id) {
-        logger.logRequest(RequestMethod.GET, "accounts/" + id);
+        logger.logRequest(RequestMethod.GET, "accounts/?id=" + id);
         ResponseEntity<AccountDto> result;
         try {
             result = new ResponseEntity<>(accountService.getAccountById(id), HttpStatus.OK);
@@ -89,4 +89,21 @@ public class AccountApi {
         logger.logResponse(result);
         return result;
     }
+
+    @GetMapping(value = "accounts/name/{name}")
+    @ResponseBody
+    @ApiOperation(value = "Get Account", notes = "Shows account with specified id")
+    public ResponseEntity<AccountDto> getAccountById(@PathVariable String name) {
+        logger.logRequest(RequestMethod.GET, "accounts/?name=" + name);
+        ResponseEntity<AccountDto> result;
+        try {
+            result = new ResponseEntity<>((AccountDto) accountService.getAccountByName(name), HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            result = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        logger.logResponse(result);
+        return result;
+    }
+
+
 }

@@ -26,4 +26,9 @@ public class ApiHelper {
         Response<AccountPojo> response = accountApiClient.getAccountById(id).execute();
         return response.body();
     }
+
+    public AccountPojo getAccountByName(String name) throws IOException {
+        Response<AccountPojo> response = accountApiClient.getAccountByName(name).execute();
+        return response.body();
+    }
 }

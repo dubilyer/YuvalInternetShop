@@ -24,7 +24,7 @@ public class AccountRepositoryImpl implements AccountRepository{
     @Override
     public List<Account> getAllAccounts() {
         return getSession()
-                .getNamedQuery("GET_ALL_PRODUCTS")
+                .getNamedQuery("GET_ALL_ACCOUNTS")
                 .list();
     }
 
@@ -44,7 +44,7 @@ public class AccountRepositoryImpl implements AccountRepository{
     @Override
     public Account getAccountById(long id) throws NoSuchElementException{
         List<Account> accounts =  getSession()
-                .getNamedQuery("GET_PRODUCT_BY_ID")
+                .getNamedQuery("GET_ACCOUNT_BY_ID")
                 .setParameter("id", id)
                 .getResultList();
         if (accounts.size()==0){
@@ -53,5 +53,17 @@ public class AccountRepositoryImpl implements AccountRepository{
         return accounts.get(0);
 
     }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Account getAccountByName(String name) throws NoSuchElementException {
+        List<Account> accounts =  getSession()
+                .getNamedQuery("GET_ACCOUNT_BY_NAME")
+                .setParameter("name", name)
+                .getResultList();
+        if (accounts.size()==0){
+            throw new NoSuchElementException("There's no account with name "+name);
+        }
+        return accounts.get(0);    }
 }
 
