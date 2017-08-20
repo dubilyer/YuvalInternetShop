@@ -9,6 +9,7 @@ import logger.LoggerDecorator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import services.ProductService;
@@ -52,7 +53,7 @@ public class ProductApi {
 
     @GetMapping(value = "/products")
     @ResponseBody
-    @ApiOperation(value = "Get products", notes = "Shows all existing accounts")
+    @ApiOperation(value = "Get products", notes = "Shows all existing products")
     public ResponseEntity<List<ProductDto>> getAllProducts() {
         logger.logRequest(RequestMethod.GET, "/products");
         ResponseEntity<List<ProductDto>> result = new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
@@ -62,6 +63,7 @@ public class ProductApi {
 
     @DeleteMapping(value = "deleteproduct/{id}")
     @ResponseBody
+    @ApiOperation(value = "Delete product", notes = "Deletes product by id")
     public ResponseEntity<String> deleteProduct(@PathVariable long id) {
         logger.logRequest(RequestMethod.DELETE, "deleteproduct/" + id);
         ResponseEntity<String> result;
@@ -77,7 +79,7 @@ public class ProductApi {
 
     @GetMapping(value = "products/{id}")
     @ResponseBody
-    @ApiOperation(value = "Delete account", notes = "Deletes product by id")
+    @ApiOperation(value = "Get product by id", notes = "Shows product with specified id")
     public ResponseEntity<ProductDto> getProductById(@PathVariable long id) {
         logger.logRequest(RequestMethod.GET, "products/" + id);
         ResponseEntity<ProductDto> result;
@@ -87,20 +89,6 @@ public class ProductApi {
             result = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         logger.logResponse(result);
-        return result;
-    }
-
-    @GetMapping(value = "accounts/{id}")
-    @ResponseBody
-    @ApiOperation(value = "Get account by id", notes = "Shows user with specified id")
-    public ResponseEntity<AccountPojo> getAccountById(@PathVariable long id) {
-        logger.logRequest(RequestMethod.GET, "accounts/" + id);
-        ResponseEntity<AccountPojo> result;
-        try {
-            result = new ResponseEntity<>(new ApiHelper().getAccountById(id), HttpStatus.OK);
-        } catch (IOException e) {
-            result = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
         return result;
     }
 }

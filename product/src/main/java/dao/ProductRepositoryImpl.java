@@ -4,6 +4,7 @@ import model.Product;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,7 @@ public class ProductRepositoryImpl implements ProductRepository{
 
     @SuppressWarnings("unchecked")
     @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<Product> getAllProducts() {
         return getSession()
                 .getNamedQuery("GET_ALL_PRODUCTS")
