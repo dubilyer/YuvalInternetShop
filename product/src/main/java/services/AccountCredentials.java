@@ -13,25 +13,24 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.Collection;
-
-import static java.util.Arrays.asList;
+import java.util.LinkedList;
 
 @Service
 public class AccountCredentials implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {
-            AccountPojo accountPojo = (new ApiHelper()).getAccountByName(username);
-            return new User(username, accountPojo.getPassword(), getGrantedAuthorities(username));
+            AccountPojo account = (new ApiHelper()).getAccountByName(username);
+            return new User(username, account.getPassword(), getGrantedAuthorities(account));
         } catch (IOException e) {
             LoggerDecorator.getLogger().log(Level.ERROR, "User " + username +" not found");
             throw  new UsernameNotFoundException("User " + username +" not found");
         }
     }
 
-    private Collection<? extends GrantedAuthority> getGrantedAuthorities(String username) {
-        Collection<? extends GrantedAuthority> authorities;
-        authorities = asList(() -> "ROLE_ADMIN", () -> "ROLE_BASIC");
+    private Collection<GrantedAuthority> getGrantedAuthorities(AccountPojo account) {
+        Collection<GrantedAuthority> authorities = new LinkedList<>();
+        account.getRoles().forEach(rolePojo -> authorities.add((GrantedAuthority) rolePojo::getRole));
         return authorities;
     }
 }

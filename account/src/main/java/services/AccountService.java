@@ -24,7 +24,7 @@ public class AccountService {
     public List<AccountDto> getAllAccounts() {
         List<Account> accounts = accountRepository.getAllAccounts();
         List<AccountDto> result = new LinkedList<>();
-        accounts.forEach(p -> result.add(new AccountDto(p.getId(), p.getName(), "secured")));
+        accounts.forEach(p -> result.add(new AccountDto(p.getId(), p.getName(), "secured", p.getRoles())));
         return result;
     }
 
@@ -43,7 +43,7 @@ public class AccountService {
     }
 
     private AccountDto convertAccountToDto(Account account) {
-        return new AccountDto(account.getId(), account.getName(), account.getPassword());
+        return new AccountDto(account.getId(), account.getName(), account.getPassword(), account.getRoles());
     }
 
     private Account convertDtoToAccount(AccountDto accountDto) {

@@ -1,6 +1,8 @@
 package model;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @NamedQueries({
@@ -17,6 +19,8 @@ public class Account {
     private String name;
     private String password;
 
+    private Set<Role> roles = new HashSet<>();
+
     public Account(long id, String name, String password) {
         this.id = id;
         this.name = name;
@@ -24,6 +28,7 @@ public class Account {
     }
 
     public Account() {
+
     }
 
     public Account(long id) {
@@ -62,6 +67,27 @@ public class Account {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "account_role",
+            joinColumns = @JoinColumn(name = "account_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    @SuppressWarnings("unused")
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    @SuppressWarnings("unused")
+    public void addRole (Role role){
+        this.roles.add(role);
+    }
+
 
     @Override
     public boolean equals(Object o) {

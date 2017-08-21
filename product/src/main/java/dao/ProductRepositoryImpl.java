@@ -23,7 +23,7 @@ public class ProductRepositoryImpl implements ProductRepository{
 
     @SuppressWarnings("unchecked")
     @Override
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public List<Product> getAllProducts() {
         return getSession()
                 .getNamedQuery("GET_ALL_PRODUCTS")
@@ -31,17 +31,20 @@ public class ProductRepositoryImpl implements ProductRepository{
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void addProduct(Product product) throws NoSuchElementException {
         getSession().persist(product);
         getProductById(product.getId());
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Override
     public void deleteProduct(long id) throws NoSuchElementException {
         Product product = getProductById(id);
         getSession().delete(product);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @SuppressWarnings("unchecked")
     @Override
     public Product getProductById(long id) throws NoSuchElementException{

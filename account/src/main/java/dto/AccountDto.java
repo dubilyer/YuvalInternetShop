@@ -1,8 +1,14 @@
 package dto;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import model.Role;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @ApiModel(value = "User account")
 public class AccountDto {
@@ -15,6 +21,8 @@ public class AccountDto {
     @ApiModelProperty(value = "password", required = true)
     private String password;
 
+    @ApiModelProperty(value = "roles", required = true)
+    private Set<Role> roles = new HashSet<>();
 
     public AccountDto(String name, String password) {
         this.name = name;
@@ -25,6 +33,14 @@ public class AccountDto {
         this.id = id;
         this.name = name;
     }
+
+    public AccountDto(long id, String name, String password, Set<Role> roles) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+        this.roles = roles;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -40,12 +56,7 @@ public class AccountDto {
     }
 
 
-    public AccountDto(long id, String name, String password) {
-        this.id = id;
-        this.name = name;
-        this.password = password;
-    }
-
+    @JsonGetter
     public long getId() {
         return id;
     }
@@ -55,6 +66,7 @@ public class AccountDto {
         this.id = id;
     }
 
+    @JsonGetter
     public String getName() {
         return name;
     }
@@ -73,5 +85,15 @@ public class AccountDto {
     @SuppressWarnings("unused")
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @JsonGetter
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    @SuppressWarnings("unused")
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }
