@@ -37,7 +37,7 @@ public class AccountService {
         return convertAccountToDto(account);
     }
 
-    public Object getAccountByName(String name) {
+    public AccountDto getAccountByName(String name) {
         Account account = accountRepository.getAccountByName(name);
         return  convertAccountToDto(account);
     }

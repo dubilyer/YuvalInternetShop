@@ -7,7 +7,7 @@ public class Initializer extends AbstractAnnotationConfigDispatcherServletInitia
     @Override
     protected Class<?>[] getRootConfigClasses() {
         System.out.println("starting init 2");
-        return new Class[] {PersistenceConfig.class};
+        return new Class[] {PersistenceConfig.class, SecurityConfig.class};
     }
 
     @Override

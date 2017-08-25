@@ -4,6 +4,8 @@ import model.Account;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +22,7 @@ public class AccountRepositoryImpl implements AccountRepository{
         return sessionFactory.getCurrentSession();
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @SuppressWarnings("unchecked")
     @Override
     public List<Account> getAllAccounts() {
@@ -28,18 +31,21 @@ public class AccountRepositoryImpl implements AccountRepository{
                 .list();
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Override
     public void addAccount(Account account) throws NoSuchElementException {
         getSession().persist(account);
         getAccountById(account.getId());
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Override
     public void deleteAccount(long id) throws NoSuchElementException {
         Account account = getAccountById(id);
         getSession().delete(account);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @SuppressWarnings("unchecked")
     @Override
     public Account getAccountById(long id) throws NoSuchElementException{
@@ -54,6 +60,7 @@ public class AccountRepositoryImpl implements AccountRepository{
 
     }
 
+    @PreAuthorize("permitAll()")
     @SuppressWarnings("unchecked")
     @Override
     public Account getAccountByName(String name) throws NoSuchElementException {
